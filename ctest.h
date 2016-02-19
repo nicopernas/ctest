@@ -24,8 +24,10 @@
 
 #ifndef WIN32
 #define WEAK __attribute__ ((weak))
+#define UNUSED __attribute__ ((unused))
 #else
 #define WEAK
+#define UNUSED
 #endif
 
 #include <inttypes.h> /* intmax_t, uintmax_t, PRI* */
@@ -71,10 +73,10 @@ struct ctest {
 #define CTEST_DATA(sname) struct sname##_data
 
 #define CTEST_SETUP(sname) \
-    void WEAK sname##_setup(struct sname##_data* data)
+    void WEAK sname##_setup(struct sname##_data* data UNUSED)
 
 #define CTEST_TEARDOWN(sname) \
-    void WEAK sname##_teardown(struct sname##_data* data)
+    void WEAK sname##_teardown(struct sname##_data* data UNUSED)
 
 #define __CTEST_INTERNAL(sname, tname, _skip) \
     void __FNAME(sname, tname)(); \
@@ -95,7 +97,7 @@ struct ctest {
     CTEST_TEARDOWN(sname); \
     void __FNAME(sname, tname)(struct sname##_data* data); \
     __CTEST_STRUCT(sname, tname, _skip, &__ctest_##sname##_data, SETUP_FNAME(sname), TEARDOWN_FNAME(sname)) \
-    void __FNAME(sname, tname)(struct sname##_data* data)
+    void __FNAME(sname, tname)(struct sname##_data* data UNUSED)
 
 
 void CTEST_LOG(const char* fmt, ...);
